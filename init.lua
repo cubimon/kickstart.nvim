@@ -476,6 +476,10 @@ require('lazy').setup({
     },
   },
   {
+    'mfussenegger/nvim-jdtls',
+    dependencies = { 'mfussenegger/nvim-dap' },
+  },
+  {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
     dependencies = {

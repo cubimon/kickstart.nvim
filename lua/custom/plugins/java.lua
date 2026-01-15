@@ -1,4 +1,9 @@
-return {}
+return {
+  'mfussenegger/nvim-jdtls',
+  dependencies = { 'mfussenegger/nvim-dap' },
+  ft = { 'java' }, -- Only load this plugin when a Java file is opened
+}
+--return {}
 --  'nvim-java/nvim-java',
 --  ft = 'java',
 --  --dependencies = {
