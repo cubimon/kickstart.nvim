@@ -619,7 +619,7 @@ require('lazy').setup({
       ---@type table<string, vim.lsp.Config>
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
         basedpyright = {
           settings = {
@@ -628,6 +628,13 @@ require('lazy').setup({
                 typeCheckingMode = 'basic', -- or "standard" / "strict"
               },
             },
+          },
+        },
+        groovyls = {
+          cmd = {
+            'java',
+            '-jar',
+            vim.fn.expand '~/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar',
           },
         },
         -- rust_analyzer = {},
@@ -902,7 +909,7 @@ require('lazy').setup({
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter-intro`
     config = function()
       -- ensure basic parser are installed
-      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+      local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'groovy', 'java' }
       require('nvim-treesitter').install(parsers)
 
       ---@param buf integer
