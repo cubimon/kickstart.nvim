@@ -213,10 +213,32 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+vim.keymap.set('n', '<C-A-h>', '<C-w>H', { desc = 'Move window to the left' })
+vim.keymap.set('n', '<C-A-l>', '<C-w>L', { desc = 'Move window to the right' })
+vim.keymap.set('n', '<C-A-j>', '<C-w>J', { desc = 'Move window to the lower' })
+vim.keymap.set('n', '<C-A-k>', '<C-w>K', { desc = 'Move window to the upper' })
+
+vim.keymap.set('n', '<leader>dr', function()
+  local dap = require 'dap'
+  local repl_win = nil
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.bo[buf].filetype == 'dap-repl' then
+      repl_win = win
+      break
+    end
+  end
+
+  if repl_win then
+    vim.api.nvim_win_close(repl_win, true)
+  else
+    dap.repl.toggle() -- Or dap.repl.open()
+  end
+end, { desc = 'Debug: [D]ap [R]EPL Toggle' })
+vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end, { desc = 'Debug: [D]ap [U]I Toggle' })
+vim.keymap.set('n', '<leader>di', function() require('dapui').open { reset = true } end, { desc = 'Debug: [D]ap U[I] reset' })
+vim.keymap.set('n', '<leader>di', function() require('dapui').open { reset = true } end, { desc = 'Debug: [D]ap U[I] reset' })
+vim.keymap.set('n', '<leader>m', function() require('maximize').toggle() end, { desc = 'Toggle window maximize' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -956,6 +978,29 @@ require('lazy').setup({
         end,
       })
     end,
+  },
+
+  {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+    config = function()
+      require('toggleterm').setup {
+        open_mapping = [[<c-\>]], -- Use Ctrl + \ to toggle
+        direction = 'float', -- Makes it a floating window
+        float_opts = {
+          border = 'curved',
+          -- Make it almost fill the screen (0.9 = 90%)
+          width = function() return math.ceil(vim.o.columns) end,
+          height = function() return math.ceil(vim.o.lines) end,
+          winblend = 3,
+        },
+      }
+    end,
+  },
+
+  {
+    'declancm/maximize.nvim',
+    config = true,
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
