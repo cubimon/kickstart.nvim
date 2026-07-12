@@ -1,8 +1,9 @@
-return {
-  'mfussenegger/nvim-jdtls',
-  dependencies = { 'mfussenegger/nvim-dap' },
-  ft = { 'java' }, -- Only load this plugin when a Java file is opened
+vim.pack.add {
+  {
+    src = 'https://github.com/mfussenegger/nvim-jdtls'
+  }
 }
+vim.cmd [[packadd nvim-jdtls]]
 --return {}
 --  'nvim-java/nvim-java',
 --  ft = 'java',

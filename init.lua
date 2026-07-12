@@ -235,10 +235,33 @@ do
   vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
   -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
-  -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-  -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-  -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-  -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+  vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
+  vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
+  vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
+  vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+
+  vim.keymap.set('n', '<leader>dr', function()
+    local dap = require 'dap'
+    local repl_win = nil
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.bo[buf].filetype == 'dap-repl' then
+        repl_win = win
+        break
+      end
+    end
+  
+    if repl_win then
+      vim.api.nvim_win_close(repl_win, true)
+    else
+      dap.repl.toggle() -- Or dap.repl.open()
+    end
+  end, { desc = 'Debug: [D]ap [R]EPL Toggle' })
+  vim.keymap.set('n', '<leader>du', function() require('dapui').toggle() end, { desc = 'Debug: [D]ap [U]I Toggle' })
+  vim.keymap.set('n', '<leader>di', function() require('dapui').open { reset = true } end, { desc = 'Debug: [D]ap U[I] reset' })
+  vim.keymap.set('n', '<leader>di', function() require('dapui').open { reset = true } end, { desc = 'Debug: [D]ap U[I] reset' })
+  vim.keymap.set('n', '<leader>m', function() require('maximize').toggle() end, { desc = 'Toggle window maximize' })
+
 
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
@@ -692,10 +715,26 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    -- clangd = {},
-    -- gopls = {},
-    -- pyright = {},
-    -- rust_analyzer = {},
+    clangd = {},
+    gopls = {},
+    pyright = {},
+    basedpyright = {
+      settings = {
+        basedpyright = {
+          analysis = {
+            typeCheckingMode = 'basic', -- or "standard" / "strict"
+          }
+        }
+      }
+    },
+    groovyls = {
+      cmd = {
+        'java',
+        '-jar',
+        vim.fn.expand '~/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar',
+      },
+    },
+    rust_analyzer = {},
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
@@ -966,17 +1005,17 @@ do
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug'
-  -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
-  -- require 'kickstart.plugins.autopairs'
-  -- require 'kickstart.plugins.neo-tree'
-  -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
+  require 'kickstart.plugins.debug'
+  require 'kickstart.plugins.indent_line'
+  require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.autopairs'
+  require 'kickstart.plugins.neo-tree'
+  require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
   -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- require 'custom.plugins'
+  require 'custom.plugins'
 end
 
 -- The line beneath this is called `modeline`. See `:help modeline`

@@ -1,14 +1,8 @@
-return {
-  "yochem/jq-playground.nvim",
-  dependencies = {
-    "nvim-treesitter/nvim-treesitter",
-  },
-  cmd = {
-    "JqPlayground",
-    "JqPlaygroundQuery",
-  },
-  config = function()
-    require("jq-playground").setup()
-  end,
+vim.pack.add {
+  {
+    src = 'https://github.com/yochem/jq-playground.nvim'
+  }
 }
+vim.cmd [[packadd jq-playground.nvim]]
+require("jq-playground").setup()
 
