@@ -698,6 +698,9 @@ require('lazy').setup({
           },
         },
       }
+    end,
+    { desc = '[S]earch [/] in Open Files' }
+  )
 
       -- Ensure the servers and tools above are installed
       --
