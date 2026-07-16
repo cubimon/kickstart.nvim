@@ -735,6 +735,9 @@ do
       },
     },
     rust_analyzer = {},
+    html = {
+      filetypes = {'html', 'twig', 'hbs'},
+    },
     --
     -- Some languages (like typescript) have entire language plugins that can be useful:
     --    https://github.com/pmizio/typescript-tools.nvim
@@ -777,6 +780,26 @@ do
         },
       },
     },
+    ts_ls = {
+      cmd = { "typescript-language-server", "--stdio" },
+      init_options = {
+        hostInfo = "neovim",
+        tsserver = {
+          path = "/usr/lib/node_modules/typescript/lib"
+        }
+      }
+    },
+    eslint = {
+      on_attach = function(client, bufnr)
+        vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          command = "EslintFixAll",
+        })
+      end,
+    },
+    html = {},
+    cssls = {},
+    jsonls = {},
   }
 
   vim.pack.add {
