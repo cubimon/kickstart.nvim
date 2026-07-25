@@ -715,26 +715,6 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    clangd = {},
-    gopls = {},
-    pyright = {},
-    basedpyright = {
-      settings = {
-        basedpyright = {
-          analysis = {
-            typeCheckingMode = 'basic', -- or "standard" / "strict"
-          }
-        }
-      }
-    },
-    groovyls = {
-      cmd = {
-        'java',
-        '-jar',
-        vim.fn.expand '~/.local/share/nvim/mason/packages/groovy-language-server/build/libs/groovy-language-server-all.jar',
-      },
-    },
-    rust_analyzer = {},
     html = {
       filetypes = {'html', 'twig', 'hbs'},
     },
