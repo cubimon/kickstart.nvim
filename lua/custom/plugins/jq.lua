@@ -6,3 +6,4 @@ vim.pack.add {
 vim.cmd [[packadd jq-playground.nvim]]
 require("jq-playground").setup()
 
+vim.keymap.set("n", "<leader>jq", vim.cmd.JqPlayground, { desc = "Open JQ Playground" })
