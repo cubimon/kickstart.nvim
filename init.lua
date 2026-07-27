@@ -760,25 +760,25 @@ do
         },
       },
     },
-    ts_ls = {
-      cmd = { "typescript-language-server", "--stdio" },
-      init_options = {
-        hostInfo = "neovim",
-        tsserver = {
-          path = "/usr/lib/node_modules/typescript/lib"
-        }
-      }
-    },
-    eslint = {
-      on_attach = function(client, bufnr)
-        vim.api.nvim_create_autocmd("BufWritePre", {
-          buffer = bufnr,
-          command = "EslintFixAll",
-        })
-      end,
-    },
-    cssls = {},
-    jsonls = {},
+    --ts_ls = {
+    --  cmd = { "typescript-language-server", "--stdio" },
+    --  init_options = {
+    --    hostInfo = "neovim",
+    --    tsserver = {
+    --      path = "/usr/lib/node_modules/typescript/lib"
+    --    }
+    --  }
+    --},
+    --eslint = {
+    --  on_attach = function(client, bufnr)
+    --    vim.api.nvim_create_autocmd("BufWritePre", {
+    --      buffer = bufnr,
+    --      command = "EslintFixAll",
+    --    })
+    --  end,
+    --},
+    --cssls = {},
+    --jsonls = {},
   }
 
   vim.pack.add {
